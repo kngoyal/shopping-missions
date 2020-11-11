@@ -1,2 +1,3 @@
-# shopping-missions
-Creates "shopping missions", a segmentation of baskets where those baskets contain similar items.  The segmentation is developed using principles from NLP, specifically topic models.  The pipeline utilizes Spark and Spark ML to ensure it would be scaleable to retailers with massive datasets and is orchestrated with Airflow for easy maintability assuming that it would be necessary to continually score new transactions with a 'mission' in batch. 
+# Creating "Shopping Missions" with retailer data utilizing topic models from NLP
+
+Work in progress - check back soon!
