@@ -1,0 +1,1 @@
+config_path = "/home/ubuntu/trip_missions/config/config.yaml"

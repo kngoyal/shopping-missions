@@ -1,0 +1,100 @@
+dag:
+
+  # Config for DAG run
+  dag_id: "shopping_missions_dag"
+  default_args:
+    owner: "Rich"
+    start_date: 2020-6-20
+    end_date: 2020-6-20
+    depends_on_past: False
+    retries: 0
+    catchup: False
+    email: "richjdowney@gmail.com"
+    email_on_failure: True
+    email_on_retry: False
+  schedule_interval: "@once"
+
+emr:
+
+  # AWS settings for EMR cluster
+  Instances:
+    Ec2KeyName: "spark-cluster"
+    InstanceGroups:
+    - Name: "Master node"
+      InstanceRole: "MASTER"
+      InstanceCount: 1
+      InstanceType: "m5.xlarge"
+    - Name: "Slave nodes"
+      Market: "ON_DEMAND"
+      InstanceRole: "CORE"
+      InstanceType: "m5.xlarge"
+      InstanceCount: 2
+    KeepJobFlowAliveWhenNoSteps: True
+    TerminationProtected: False
+  JobFlowRole: "EMR_EC2_DefaultRole"
+  ServiceRole: "EMR_DefaultRole"
+  Name: "Small"
+  LogUri: "s3://nlp-use-cases/etl-log"
+  ReleaseLabel: "emr-5.31.0"
+  Configurations:
+    - Classification: "spark-env"
+      Configurations:
+      - Classification: "export"
+        Properties:
+          PYSPARK_PYTHON: "/usr/bin/python3"
+  BootstrapActions:
+    - Name: "Install_Dependencies"
+      ScriptBootstrapAction:
+        Path: "s3://nlp-use-cases/bootstrap/install_dependencies.sh"
+  StepConcurrencyLevel: 1
+
+airflow:
+
+  # Config for airflow defaults
+  AwsCredentials: "aws_default"
+
+
+app:
+
+  # Config for files related to running the Spark app on emr
+  RootPath: "/home/ubuntu/trip_missions/"
+  PathToRunners: "/home/ubuntu/trip_missions/spark_runners/"
+  PathToBin: "/home/ubuntu/trip_missions/bin/"
+  PathToEgg: "/home/ubuntu/trip_missions/dist/"
+  PathToUtils: "/home/ubuntu/trip_missions/utils/"
+  EggObject: "trip_missions_egg-0.1-py2.7.egg"
+  StageRunner: "stage_tables_runner.py"
+  PreprocessRunner: "preprocess_data_runner.py"
+  TuneModelRunner: "model_train_runner.py"
+  ProfilingRunner: "profiling_runner.py"
+  DependenciesShell: "install_dependencies.sh"
+  Requirements: "requirements.txt"
+
+s3:
+
+  # Config for s3
+  Bucket: "nlp-use-cases"
+  DataFolder: "dh-data"
+
+  # Paths to runner files on s3(egg app, main runner)
+  egg: "s3://nlp-use-cases/application/trip_missions_egg-0.1-py2.7.egg"
+  StageRunner: "s3://nlp-use-cases/application/stage_tables_runner.py"
+  PreprocessRunner: "s3://nlp-use-cases/application/preprocess_data_runner.py"
+  TuneModelRunner: "s3://nlp-use-cases/application/model_train_runner.py"
+  ProfilingRunner: "s3://nlp-use-cases/application/profiling_runner.py"
+  StagingDataPath: "s3://nlp-use-cases/staging-tables/"
+  SavedModels: "s3://nlp-use-cases/saved_models/"
+
+preprocessing:
+
+  # Config for data pre-processing
+  # NOTE:  The add-steps function takes only strings so arguments must be passed as strings
+  sample: "True"
+  sample_rate: "0.2"
+  train_frac: "0.8"
+
+model_tune:
+
+  # Config for model tuning
+  MaxIterations: "1"
+
