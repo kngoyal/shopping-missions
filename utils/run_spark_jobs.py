@@ -46,7 +46,7 @@ def add_spark_step(
         sample_rate=sample_rate,
         train_frac=train_frac,
         max_iterations=max_iterations,
-        model_path = model_path,
+        model_path=model_path,
     )
 
     step_adder = EmrAddStepsOperator(

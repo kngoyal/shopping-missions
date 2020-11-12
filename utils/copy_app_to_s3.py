@@ -45,6 +45,14 @@ def copy_app_to_s3(*op_args) -> log:
         object_name="application/{}".format(config["app"]["TuneModelRunner"]),
     )
 
+    # Upload runner for profiling to s3
+    load_file_to_s3(
+        file_name="{}{}".format(config["app"]["PathToRunners"], config["app"]["ProfilingRunner"]),
+        bucket=config["s3"]["Bucket"],
+        aws_credentials_id=config["airflow"]["AwsCredentials"],
+        object_name="application/{}".format(config["app"]["ProfilingRunner"]),
+    )
+
     # Upload requirements
     load_file_to_s3(
         file_name="{}{}".format(config["app"]["RootPath"], config["app"]["Requirements"]),

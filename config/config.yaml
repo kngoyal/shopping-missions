@@ -83,6 +83,7 @@ s3:
   TuneModelRunner: "s3://nlp-use-cases/application/model_train_runner.py"
   ProfilingRunner: "s3://nlp-use-cases/application/profiling_runner.py"
   StagingDataPath: "s3://nlp-use-cases/staging-tables/"
+  ProfilingDataPath: "s3://nlp-use-cases/model-profiles/"
   SavedModels: "s3://nlp-use-cases/saved_models/"
 
 preprocessing:

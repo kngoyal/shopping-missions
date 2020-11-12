@@ -6,7 +6,7 @@ from typing import List, Dict
 def add_step_to_emr(
     task_id: str, egg: str, runner: str, bucket="", data_folder="",
         staging_path="", execution_date="", sample="", sample_rate="", train_frac="",
-        model_path="", max_iterations="",
+        model_path="", max_iterations=""
 ) -> List[Dict]:
     """Function to add a step to emr
 

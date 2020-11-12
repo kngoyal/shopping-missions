@@ -4,7 +4,7 @@ import boto3
 from io import StringIO
 from pyspark.sql import SparkSession
 from pyspark.ml.clustering import DistributedLDAModel
-from pyspark.ml.feature import CountVectorizer
+from pyspark.ml.feature import CountVectorizer, CountVectorizerModel
 from src.profiling.profiling_helpers import *
 from utils.logging_framework import log
 
@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     cv_load_path = os.path.join(model_path, "cv-model")
     log.info("Loading the Countvectorizer model from {}".format(cv_load_path))
-    cvmodel = CountVectorizer.load(cv_load_path)
+    cvmodel = CountVectorizerModel.load(cv_load_path)
 
     # ========== Run the profiling ==========
 
@@ -105,6 +105,7 @@ if __name__ == "__main__":
     # ========== Save profiles ==========
     bucket = bucket
     csv_buffer = StringIO()
+    all_profiles = all_profiles.toPandas()
     all_profiles.to_csv(csv_buffer)
 
     s3_resource = boto3.resource("s3")
