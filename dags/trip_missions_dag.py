@@ -112,8 +112,8 @@ with DAG(**config["dag"]) as dag:
     )
 
     create_egg >> upload_code >> cluster_creator >> \
-    stage_data >> staging_step_sensor >> \
-    preprocess_data >> preprocessing_step_sensor >> \
-    train_tune_model >> train_tune_model_step_sensor >> \
-    profiling >> profiling_step_sensor >> \
+        stage_data >> staging_step_sensor >> \
+        preprocess_data >> preprocessing_step_sensor >> \
+        train_tune_model >> train_tune_model_step_sensor >> \
+        profiling >> profiling_step_sensor >> \
         cluster_remover
