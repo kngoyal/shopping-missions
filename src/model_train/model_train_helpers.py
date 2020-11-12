@@ -24,16 +24,17 @@ def create_lda_iterator(train_df: SparkDataFrame, max_iterations: int) -> LDA:
     lda = LDA(seed=1, optimizer="em")
     lda.setMaxIter(max_iterations)
 
-    params = [{lda.k: 10},
-              ]
+    params = [{lda.k: 10}]
 
     model_iterator = lda.fitMultiple(train_df, params)
 
     return model_iterator
 
 
-def run_lda_models(test_df: SparkDataFrame, model_iterator: iter, num_iters: int, model_path: str) -> tuple:
-    """Function to fit the LDA models
+def tune_lda_models(
+    test_df: SparkDataFrame, model_iterator: iter, num_iters: int, model_path: str
+) -> tuple:
+    """Function to tune LDA models
 
     Parameters
     ----------
@@ -79,6 +80,33 @@ def run_lda_models(test_df: SparkDataFrame, model_iterator: iter, num_iters: int
         model[1].write().overwrite().save(save_path)
 
     return iteration, log_likelihood, log_perplexity, num_topics
+
+
+def train_lda_model(train_df: SparkDataFrame, max_iterations: int, k: int) -> LDA:
+    """Function to fit an LDA model
+
+        Parameters
+        ----------
+        train_df : pyspark.sql.DataFrame
+            DataFrame containing the training set
+        max_iterations : int
+            Maximum number of iterations for the LDA model
+        k : int
+            Number of 'missions' (topics)
+
+        Returns
+        -------
+        model : pyspark.ml.clustering.LDA
+            Fitted LDA model
+
+        """
+
+    lda = LDA(k=k, seed=1, optimizer="em")
+    lda.setMaxIter(max_iterations)
+
+    model = lda.fit(test_df)
+
+    return model
 
 
 def load_best(model_performance: pd.DataFrame, model_path: str) -> DistributedLDAModel:

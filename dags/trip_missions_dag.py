@@ -78,15 +78,17 @@ with DAG(**config["dag"]) as dag:
     )
 
     # Tune the LDA model
-    task = "tune_model"
-    tune_model, tune_model_step_sensor = add_spark_step(
+    task = "train_tune_model"
+    train_tune_model, train_tune_model_step_sensor = add_spark_step(
         task=task,
         path_to_egg=config["s3"]["egg"],
         runner=config["s3"]["TuneModelRunner"],
         bucket=config["s3"]["Bucket"],
         staging_path=config["s3"]["StagingDataPath"],
-        max_iterations=config["model_tune"]["MaxIterations"],
+        max_iterations=config["model"]["MaxIterations"],
         model_path=config["s3"]["SavedModels"],
+        tune=config["model"]["Tune"],
+        k=config["model"]["k"],
     )
 
     # Run profiling
@@ -112,6 +114,6 @@ with DAG(**config["dag"]) as dag:
     create_egg >> upload_code >> cluster_creator >> \
     stage_data >> staging_step_sensor >> \
     preprocess_data >> preprocessing_step_sensor >> \
-    tune_model >> tune_model_step_sensor >> \
+    train_tune_model >> train_tune_model_step_sensor >> \
     profiling >> profiling_step_sensor >> \
         cluster_remover

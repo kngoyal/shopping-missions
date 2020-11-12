@@ -32,6 +32,8 @@ def add_spark_step(
     train_frac = kwargs.get("train_frac", "0.8")
     model_path = kwargs.get("model_path", "dum_str")
     max_iterations = kwargs.get("max_iterations", "10")
+    tune = kwargs.get("Tune", "Tune")
+    k = kwargs.get("k", "10")
 
     # Add the Spark step
     spark_step = add_step_to_emr(
@@ -47,6 +49,8 @@ def add_spark_step(
         train_frac=train_frac,
         max_iterations=max_iterations,
         model_path=model_path,
+        tune=tune,
+        k=k,
     )
 
     step_adder = EmrAddStepsOperator(

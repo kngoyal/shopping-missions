@@ -6,7 +6,7 @@ from typing import List, Dict
 def add_step_to_emr(
     task_id: str, egg: str, runner: str, bucket="", data_folder="",
         staging_path="", execution_date="", sample="", sample_rate="", train_frac="",
-        model_path="", max_iterations=""
+        model_path="", max_iterations="", tune="", k="",
 ) -> List[Dict]:
     """Function to add a step to emr
 
@@ -36,6 +36,11 @@ def add_step_to_emr(
         the number of iterations for the LDA model
     model_path : str
         path to save LDA models
+    tune : str
+        flag to identify whether to tune the model (test different k values) - takes value "Tune"
+        to tune
+    k : str
+        number of 'missions' (topics) to fit if not tuning
 
     """
 
@@ -62,6 +67,8 @@ def add_step_to_emr(
                     train_frac,
                     max_iterations,
                     model_path,
+                    tune,
+                    k,
                 ],
             },
         }

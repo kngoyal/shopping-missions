@@ -152,11 +152,17 @@ class ConfigPreprocess(pydantic.BaseModel):
     train_frac: str
 
 
-class ConfigModelTune(pydantic.BaseModel):
+class ConfigModel(pydantic.BaseModel):
     """Configuration for model tuning"""
 
     # Number of LDA iterations
     MaxIterations: str
+
+    # Flag to tune or train - to tune pass value 'Tune' else 'Train'
+    Tune: str
+
+    # If not tuning the model - fixed value of k (number of 'missions' / topics)
+    k: str
 
 
 class Config(pydantic.BaseModel):
@@ -168,6 +174,7 @@ class Config(pydantic.BaseModel):
     s3: ConfigS3
     airflow: ConfigAirflow
     preprocessing: ConfigPreprocess
+    model: ConfigModel
 
 
 class ConfigException(Exception):
