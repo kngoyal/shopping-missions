@@ -54,40 +54,40 @@ with DAG(**config["dag"]) as dag:
     )
 
     # Stage the transaction and time DataFrames
-    # task = "stage_data"
-    # stage_data, staging_step_sensor = add_spark_step(
-    #    task=task,
-    #    path_to_egg=config["s3"]["egg"],
-    #    runner=config["s3"]["StageRunner"],
-    #    bucket=config["s3"]["Bucket"],
-    #    data_folder=config["s3"]["DataFolder"],
-    #    staging_path=config["s3"]["StagingDataPath"],
-    # )
+    task = "stage_data"
+    stage_data, staging_step_sensor = add_spark_step(
+       task=task,
+       path_to_egg=config["s3"]["egg"],
+       runner=config["s3"]["StageRunner"],
+       bucket=config["s3"]["Bucket"],
+       data_folder=config["s3"]["DataFolder"],
+       staging_path=config["s3"]["StagingDataPath"],
+    )
 
     # Preprocess the data for input to LDA
-    # task = "preprocess_data"
-    # preprocess_data, preprocessing_step_sensor = add_spark_step(
-    #     task=task,
-    #     path_to_egg=config["s3"]["egg"],
-    #     runner=config["s3"]["PreprocessRunner"],
-    #     staging_path=config["s3"]["StagingDataPath"],
-    #     sample=config["preprocessing"]["sample"],
-    #     sample_rate=config["preprocessing"]["sample_rate"],
-    #     train_frac=config["preprocessing"]["train_frac"],
-    #     model_path=config["s3"]["SavedModels"],
-    # )
-    #
-    # # Tune the LDA model
-    # task = "tune_model"
-    # tune_model, tune_model_step_sensor = add_spark_step(
-    #     task=task,
-    #     path_to_egg=config["s3"]["egg"],
-    #     runner=config["s3"]["TuneModelRunner"],
-    #     bucket=config["s3"]["Bucket"],
-    #     staging_path=config["s3"]["StagingDataPath"],
-    #     max_iterations=config["model_tune"]["MaxIterations"],
-    #     model_path=config["s3"]["SavedModels"],
-    # )
+    task = "preprocess_data"
+    preprocess_data, preprocessing_step_sensor = add_spark_step(
+        task=task,
+        path_to_egg=config["s3"]["egg"],
+        runner=config["s3"]["PreprocessRunner"],
+        staging_path=config["s3"]["StagingDataPath"],
+        sample=config["preprocessing"]["sample"],
+        sample_rate=config["preprocessing"]["sample_rate"],
+        train_frac=config["preprocessing"]["train_frac"],
+        model_path=config["s3"]["SavedModels"],
+    )
+
+    # Tune the LDA model
+    task = "tune_model"
+    tune_model, tune_model_step_sensor = add_spark_step(
+        task=task,
+        path_to_egg=config["s3"]["egg"],
+        runner=config["s3"]["TuneModelRunner"],
+        bucket=config["s3"]["Bucket"],
+        staging_path=config["s3"]["StagingDataPath"],
+        max_iterations=config["model_tune"]["MaxIterations"],
+        model_path=config["s3"]["SavedModels"],
+    )
 
     # Run profiling
     task = "profiling"
@@ -110,9 +110,8 @@ with DAG(**config["dag"]) as dag:
     )
 
     create_egg >> upload_code >> cluster_creator >> \
-        profiling >> profiling_step_sensor >> \
+    stage_data >> staging_step_sensor >> \
+    preprocess_data >> preprocessing_step_sensor >> \
+    tune_model >> tune_model_step_sensor >> \
+    profiling >> profiling_step_sensor >> \
         cluster_remover
-
-#stage_data >> staging_step_sensor >> \
-#preprocess_data >> preprocessing_step_sensor >> \
-#tune_model >> tune_model_step_sensor >> \
