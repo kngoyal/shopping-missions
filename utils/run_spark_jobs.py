@@ -32,7 +32,7 @@ def add_spark_step(
     train_frac = kwargs.get("train_frac", "0.8")
     model_path = kwargs.get("model_path", "dum_str")
     max_iterations = kwargs.get("max_iterations", "10")
-    tune = kwargs.get("Tune", "Tune")
+    tune = kwargs.get("tune", "Tune")
     k = kwargs.get("k", "10")
 
     # Add the Spark step

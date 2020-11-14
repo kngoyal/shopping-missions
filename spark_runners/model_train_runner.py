@@ -39,7 +39,7 @@ if __name__ == "__main__":
         iteration, log_likelihood, log_perplexity, num_topics = tune_lda_models(
             test_df=test_df,
             model_iterator=model_iterator,
-            num_iters=1,
+            num_iters=6,
             model_path=model_path,
         )
 

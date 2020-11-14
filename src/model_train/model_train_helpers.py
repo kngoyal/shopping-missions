@@ -24,7 +24,14 @@ def create_lda_iterator(train_df: SparkDataFrame, max_iterations: int) -> LDA:
     lda = LDA(seed=1, optimizer="em")
     lda.setMaxIter(max_iterations)
 
-    params = [{lda.k: 10}]
+    params = [
+        {lda.k: 5},
+        {lda.k: 10},
+        {lda.k: 15},
+        {lda.k: 20},
+        {lda.k: 25},
+        {lda.k: 30},
+    ]
 
     model_iterator = lda.fitMultiple(train_df, params)
 
@@ -104,7 +111,7 @@ def train_lda_model(train_df: SparkDataFrame, max_iterations: int, k: int) -> LD
     lda = LDA(k=k, seed=1, optimizer="em")
     lda.setMaxIter(max_iterations)
 
-    model = lda.fit(test_df)
+    model = lda.fit(train_df)
 
     return model
 

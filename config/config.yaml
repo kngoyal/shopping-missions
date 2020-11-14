@@ -90,14 +90,14 @@ preprocessing:
 
   # Config for data pre-processing
   # NOTE:  The add-steps function takes only strings so arguments must be passed as strings
-  sample: "True"
-  sample_rate: "0.2"
+  sample: "False"
+  sample_rate: "0.5"
   train_frac: "0.8"
 
 model:
 
   # Config for model training and tuning
-  MaxIterations: "1"
-  Tune: "Tune"
+  MaxIterations: "80"
+  Tune: "Train"
   k: "10"
 

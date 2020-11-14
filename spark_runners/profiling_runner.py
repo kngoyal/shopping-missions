@@ -112,3 +112,11 @@ if __name__ == "__main__":
     s3_resource.Object(bucket, "model-profiles/model_profiles.csv").put(
         Body=csv_buffer.getvalue()
     )
+
+    # Save top terms
+    top_terms = top_terms.toPandas()
+    top_terms.to_csv(csv_buffer)
+
+    s3_resource.Object(bucket, "model-profiles/top_terms.csv").put(
+        Body=csv_buffer.getvalue()
+    )
