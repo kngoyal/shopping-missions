@@ -98,6 +98,6 @@ model:
 
   # Config for model training and tuning
   MaxIterations: "80"
-  Tune: "Train"
+  Tune: "Tune"
   k: "10"
 

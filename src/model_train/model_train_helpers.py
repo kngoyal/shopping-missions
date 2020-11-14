@@ -25,7 +25,6 @@ def create_lda_iterator(train_df: SparkDataFrame, max_iterations: int) -> LDA:
     lda.setMaxIter(max_iterations)
 
     params = [
-        {lda.k: 5},
         {lda.k: 10},
         {lda.k: 15},
         {lda.k: 20},
