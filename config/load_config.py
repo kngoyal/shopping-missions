@@ -82,6 +82,9 @@ class ConfigApp(pydantic.BaseModel):
     # Name of the main application egg object
     EggObject: str
 
+    # Name of the runner for scoring:
+    ScoreRunner: str
+
     # Name of Spark runner to stage tables
     StageRunner: str
 
@@ -99,6 +102,9 @@ class ConfigApp(pydantic.BaseModel):
 
     # Name of the package requirements
     Requirements: str
+
+    # Determines if only scoring should be run
+    ScoreOnly: str
 
 
 class ConfigAirflow(pydantic.BaseModel):
@@ -120,6 +126,9 @@ class ConfigS3(pydantic.BaseModel):
     # Path to egg file
     egg: str
 
+    # Path the the model scoring runner file
+    ScoreRunner: str
+
     # Path to staging tables runner file
     StageRunner: str
 
@@ -137,6 +146,12 @@ class ConfigS3(pydantic.BaseModel):
 
     # Path to saved models
     SavedModels: str
+
+    # path to scoring data
+    ScoringDataPath: str
+
+    # name of file to score
+    ScoringFileName: str
 
 
 class ConfigPreprocess(pydantic.BaseModel):

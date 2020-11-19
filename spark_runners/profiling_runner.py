@@ -4,7 +4,7 @@ import boto3
 from io import StringIO
 from pyspark.sql import SparkSession
 from pyspark.ml.clustering import DistributedLDAModel
-from pyspark.ml.feature import CountVectorizer, CountVectorizerModel
+from pyspark.ml.feature import CountVectorizerModel
 from src.profiling.profiling_helpers import *
 from utils.logging_framework import log
 
@@ -12,8 +12,8 @@ if __name__ == "__main__":
 
     task = sys.argv[1]
     bucket = sys.argv[2]
-    staging_path = sys.argv[4]
-    model_path = sys.argv[10]
+    staging_path = sys.argv[3]
+    model_path = sys.argv[4]
 
     spark = SparkSession.builder.appName("trip_missions").getOrCreate()
 
@@ -114,6 +114,7 @@ if __name__ == "__main__":
     )
 
     # Save top terms
+    csv_buffer = StringIO()
     top_terms = top_terms.toPandas()
     top_terms.to_csv(csv_buffer)
 

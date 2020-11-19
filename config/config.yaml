@@ -63,12 +63,14 @@ app:
   PathToEgg: "/home/ubuntu/trip_missions/dist/"
   PathToUtils: "/home/ubuntu/trip_missions/utils/"
   EggObject: "trip_missions_egg-0.1-py2.7.egg"
+  ScoreRunner: "scoring_runner.py"
   StageRunner: "stage_tables_runner.py"
   PreprocessRunner: "preprocess_data_runner.py"
   TuneModelRunner: "model_train_runner.py"
   ProfilingRunner: "profiling_runner.py"
   DependenciesShell: "install_dependencies.sh"
   Requirements: "requirements.txt"
+  ScoreOnly: "Yes"
 
 s3:
 
@@ -78,13 +80,15 @@ s3:
 
   # Paths to runner files on s3(egg app, main runner)
   egg: "s3://nlp-use-cases/application/trip_missions_egg-0.1-py2.7.egg"
+  ScoreRunner: "s3://nlp-use-cases/application/scoring_runner.py"
   StageRunner: "s3://nlp-use-cases/application/stage_tables_runner.py"
   PreprocessRunner: "s3://nlp-use-cases/application/preprocess_data_runner.py"
   TuneModelRunner: "s3://nlp-use-cases/application/model_train_runner.py"
   ProfilingRunner: "s3://nlp-use-cases/application/profiling_runner.py"
   StagingDataPath: "s3://nlp-use-cases/staging-tables/"
-  ProfilingDataPath: "s3://nlp-use-cases/model-profiles/"
   SavedModels: "s3://nlp-use-cases/saved_models/"
+  ScoringDataPath: "s3://nlp-use-cases/dh-data/scoring-data/"
+  ScoringFileName: "trans_to_score.csv"
 
 preprocessing:
 
@@ -98,6 +102,6 @@ model:
 
   # Config for model training and tuning
   MaxIterations: "80"
-  Tune: "Tune"
+  Tune: "Train"
   k: "10"
 

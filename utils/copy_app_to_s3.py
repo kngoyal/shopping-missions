@@ -21,6 +21,14 @@ def copy_app_to_s3(*op_args) -> log:
         object_name="application/{}".format(config["app"]["EggObject"]),
     )
 
+    # Upload runner for scoring to s3
+    load_file_to_s3(
+        file_name="{}{}".format(config["app"]["PathToRunners"], config["app"]["ScoreRunner"]),
+        bucket=config["s3"]["Bucket"],
+        aws_credentials_id=config["airflow"]["AwsCredentials"],
+        object_name="application/{}".format(config["app"]["ScoreRunner"]),
+    )
+
     # Upload runner for staging tables to s3
     load_file_to_s3(
         file_name="{}{}".format(config["app"]["PathToRunners"], config["app"]["StageRunner"]),

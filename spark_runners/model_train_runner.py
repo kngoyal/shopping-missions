@@ -9,11 +9,11 @@ if __name__ == "__main__":
 
     task = sys.argv[1]
     bucket = sys.argv[2]
-    staging_path = sys.argv[4]
-    max_iterations = int(sys.argv[9])
-    model_path = sys.argv[10]
-    tune = sys.argv[11]
-    k = int(sys.argv[12])
+    staging_path = sys.argv[3]
+    max_iterations = int(sys.argv[4])
+    model_path = sys.argv[5]
+    tune = sys.argv[6]
+    k = int(sys.argv[7])
 
     spark = SparkSession.builder.appName("trip_missions").getOrCreate()
 

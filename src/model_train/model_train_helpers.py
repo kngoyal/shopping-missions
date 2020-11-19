@@ -2,6 +2,7 @@ import pandas as pd
 import os
 from pyspark.sql import DataFrame as SparkDataFrame
 from pyspark.ml.clustering import LDA, DistributedLDAModel
+from utils.logging_framework import log
 
 
 def create_lda_iterator(train_df: SparkDataFrame, max_iterations: int) -> LDA:
@@ -70,6 +71,9 @@ def tune_lda_models(
     iteration = []
 
     for i in range(0, num_iters):
+
+        log.info("Running model iteration {}".format(i))
+
         model = next(model_iterator)
 
         log_likelihood_model = model[1].logLikelihood(test_df)

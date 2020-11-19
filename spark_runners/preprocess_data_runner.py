@@ -7,11 +7,11 @@ from utils.logging_framework import log
 if __name__ == "__main__":
 
     task = sys.argv[1]
-    staging_path = sys.argv[4]
-    sample = sys.argv[6]
-    sample_rate = float(sys.argv[7])
-    train_frac = float(sys.argv[8])
-    model_path = sys.argv[10]
+    staging_path = sys.argv[2]
+    sample = sys.argv[3]
+    sample_rate = float(sys.argv[4])
+    train_frac = float(sys.argv[5])
+    model_path = sys.argv[6]
 
     spark = SparkSession.builder.appName("trip_missions").getOrCreate()
 
